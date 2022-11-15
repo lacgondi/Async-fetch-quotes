@@ -13,12 +13,12 @@ function printData(data, htmlID) {
     for (let d of data) {
       let li = document.createElement("li");
       for (let a of d.quote) {
-        if (a === "the" || a === "The") {
-          let b = document.createElement("b");
+        if (a.toLowerCase()==='the') {
+          let b = document.createElement('strong');
           b.innerHTML = a;
           li.appendChild(b);
         } else {
-          li.textContent += a;
+          li.append(a);
         }
       }
       list.appendChild(li);
