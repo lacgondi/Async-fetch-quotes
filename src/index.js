@@ -63,24 +63,31 @@ document.addEventListener("DOMContentLoaded", () => {
     let data = await update();
     let lengthArr = [];
     let abc = data.quotes.sort(function (a, b) {
-        let first = a.author.toUpperCase();
-        let second = b.author.toUpperCase();
-  
-        if (first < second) {
-          return -1;
-        } else if (first > second) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-    let list = document.getElementById('lengthList');
+      let first = a.author.toUpperCase();
+      let second = b.author.toUpperCase();
+
+      if (first < second) {
+        return -1;
+      } else if (first > second) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    let list = document.getElementById("lengthList");
     list.textContent = "";
     for (let d of abc) {
-        let li = document.createElement("li");
-        lengthArr.push(d.quote.length)
-        li.innerHTML =d.quote.length+' '+ d.quote + "\n\t-" + d.author;
-        list.appendChild(li);
-      }
+      let li = document.createElement("li");
+      lengthArr.push(d.quote.length);
+      li.innerHTML = d.quote.length + " " + d.quote + "\n\t-" + d.author;
+      list.appendChild(li);
+    }
   });
+
+  document.getElementById('search').addEventListener('change', async()=>{
+    let searchString = document.getElementById('search').value;
+    let data =await update();
+    let filter = data.quotes.filter(q =>q.author.toLowerCase()===searchString.toLowerCase());
+    document.getElementById('countOut').value=filter.length;
+  })
 });
