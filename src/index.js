@@ -1,4 +1,4 @@
-import './style.css';
+import "./style.css";
 
 async function update() {
   let res = await fetch("../quotes.json");
@@ -9,28 +9,27 @@ function printData(data, htmlID) {
   let list = document.getElementById(htmlID);
   list.textContent = "";
 
-    if(htmlID='theList'){
-        for (let d of data) {
-            let li = document.createElement("li");
-            for(let a of d.quote){
-                if(a==='the' || a === 'The'){
-                    let b = document.createElement("b")
-                    b.innerHTML=a
-                    li.appendChild(b)
-                }else{
-                    li.textContent+=a
-                }
-            }
-            list.appendChild(li);
-          }
-    }else{
-        for (let d of data) {
-          let li = document.createElement("li");
-          li.innerHTML = d.quote + "\n\t-" + d.author;
-          list.appendChild(li);
+  if ((htmlID = "theList")) {
+    for (let d of data) {
+      let li = document.createElement("li");
+      for (let a of d.quote) {
+        if (a === "the" || a === "The") {
+          let b = document.createElement("b");
+          b.innerHTML = a;
+          li.appendChild(b);
+        } else {
+          li.textContent += a;
         }
+      }
+      list.appendChild(li);
     }
-
+  } else {
+    for (let d of data) {
+      let li = document.createElement("li");
+      li.innerHTML = d.quote + "\n\t-" + d.author;
+      list.appendChild(li);
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -58,5 +57,30 @@ document.addEventListener("DOMContentLoaded", () => {
       (q) => q.quote.includes("the") || q.quote.includes("The")
     );
     printData(filter, "theList");
+  });
+
+  document.getElementById("length").addEventListener("click", async () => {
+    let data = await update();
+    let lengthArr = [];
+    let abc = data.quotes.sort(function (a, b) {
+        let first = a.author.toUpperCase();
+        let second = b.author.toUpperCase();
+  
+        if (first < second) {
+          return -1;
+        } else if (first > second) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    let list = document.getElementById('lengthList');
+    list.textContent = "";
+    for (let d of abc) {
+        let li = document.createElement("li");
+        lengthArr.push(d.quote.length)
+        li.innerHTML =d.quote.length+' '+ d.quote + "\n\t-" + d.author;
+        list.appendChild(li);
+      }
   });
 });
