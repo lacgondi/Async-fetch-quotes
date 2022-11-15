@@ -8,28 +8,11 @@ async function update() {
 function printData(data, htmlID) {
   let list = document.getElementById(htmlID);
   list.textContent = "";
-
-  if ((htmlID = "theList")) {
-    for (let d of data) {
-      let li = document.createElement("li");
-      for (let a of d.quote) {
-        if (a.toLowerCase()==='the') {
-          let b = document.createElement('strong');
-          b.innerHTML = a;
-          li.appendChild(b);
-        } else {
-          li.append(a);
-        }
-      }
-      list.appendChild(li);
-    }
-  } else {
     for (let d of data) {
       let li = document.createElement("li");
       li.innerHTML = d.quote + "\n\t-" + d.author;
       list.appendChild(li);
     }
-  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -56,7 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
     let filter = data.quotes.filter(
       (q) => q.quote.includes("the") || q.quote.includes("The")
     );
-    printData(filter, "theList");
+    for(let f of filter){ 
+        let line = f.quote+"\n\t-"+f.author;
+        line.replaceAll(' The ', '<b> The </b>')
+        line.replaceAll(' the ', '<b> the </b>')
+        theArr.push(line);
+    }
+    let list = document.getElementById('theList')
+    for (let d of theArr) {
+        let li = document.createElement("li");
+        li.innerHTML = d;
+        list.appendChild(li);
+      }
   });
 
   document.getElementById("length").addEventListener("click", async () => {
