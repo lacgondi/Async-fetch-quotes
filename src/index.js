@@ -8,11 +8,11 @@ async function update() {
 function printData(data, htmlID) {
   let list = document.getElementById(htmlID);
   list.textContent = "";
-    for (let d of data) {
-      let li = document.createElement("li");
-      li.innerHTML = d.quote + "\n\t-" + d.author;
-      list.appendChild(li);
-    }
+  for (let d of data) {
+    let li = document.createElement("li");
+    li.innerHTML = d.quote + "\n\t-" + d.author;
+    list.appendChild(li);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -39,18 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
     let filter = data.quotes.filter(
       (q) => q.quote.includes("the") || q.quote.includes("The")
     );
-    for(let f of filter){ 
-        let line = f.quote+"\n\t-"+f.author;
-        line.replaceAll(' The ', '<b> The </b>')
-        line.replaceAll(' the ', '<b> the </b>')
-        theArr.push(line);
+    for (let f of filter) {
+      let line = f.quote + "\n\t-" + f.author;
+      line = line.replaceAll("The ", "<b>The </b>");
+      line = line.replaceAll("the ", "<b>the </b>");
+      theArr.push(line);
     }
-    let list = document.getElementById('theList')
+    let list = document.getElementById("theList");
     for (let d of theArr) {
-        let li = document.createElement("li");
-        li.innerHTML = d;
-        list.appendChild(li);
-      }
+      let li = document.createElement("li");
+      li.innerHTML = d;
+      list.appendChild(li);
+    }
   });
 
   document.getElementById("length").addEventListener("click", async () => {
@@ -78,10 +78,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  document.getElementById('search').addEventListener('change', async()=>{
-    let searchString = document.getElementById('search').value;
-    let data =await update();
-    let filter = data.quotes.filter(q =>q.author.toLowerCase()===searchString.toLowerCase());
-    document.getElementById('countOut').value=filter.length;
-  })
+  document.getElementById("search").addEventListener("change", async () => {
+    let searchString = document.getElementById("search").value;
+    let data = await update();
+    let filter = data.quotes.filter(
+      (q) => q.author.toLowerCase() === searchString.toLowerCase()
+    );
+    document.getElementById("countOut").value = filter.length;
+  });
 });
